@@ -15,7 +15,40 @@ To install the package, run the following command:
 Usage
 -----
 
-For a YAML configuration file:
+To define an experiment or experiment group with YAML files, the available tags are:
+"!func", "!import", "!nodes", "!Graph", "!Experiment", and "!ExperimentGroup".
+
+.. list-table::
+   :widths: 10 40 40
+   :header-rows: 1
+
+   * - Tag
+     - Usage
+     - Description
+   * - !func
+     - !func:<name> '<expression>'
+     - Define function object or expression.
+   * - !import (function)
+     - !import '<module>'
+     - Import an object.
+   * - !import (with applied arguments)
+     - !import:<module> {<arg1>: <value1>, <arg2>: <value2>, ...}
+     - Import an object and pass arguments to it.
+   * - !nodes
+     - !nodes name: {<node1>: {func: <value1>, output: <value2>, ...}, <node2>: ...}
+     - Define a dictionary of node objects.
+   * - !Graph
+     - !Graph:<name> {grouped_edges: <value1>, node_objects: !nodes: <value2>, ...}
+     - Define a graph object.
+   * - !Experiment
+     - !Experiment:<name> {graph: !Graph:<value1>, components: <value2>, ...}
+     - Define an experiment object.
+   * - !ExperimentGroup
+     - !ExperimentGroup:<name> {node_objects: <value1>, ...}
+     - A tag to define an experiment group object.
+
+
+The following is an example of a YAML configuration file:
 
 .. code-block:: YAML
 
@@ -25,7 +58,7 @@ For a YAML configuration file:
         grouped_edges:
         - [add, [subtract, power, log]]
         - [[subtract, power], multiply]
-        node_objects: !Nodes
+        node_objects: !nodes
             add:
                 func: !func:add 'lambda a, h: a + h'
                 output: c

@@ -115,9 +115,9 @@ def func_multi_constructor(loader, tag_suffix, node):
 
 
 def nodes_constructor(loader, node):
-    """Load the "!Nodes" tag from yaml string.
+    """Load the "!nodes" tag from yaml string.
 
-    The constructor parses !Nodes. For an easier view of the nodes,
+    The constructor parses !nodes. For an easier view of the nodes,
     the nodes are listed as a dictionary of the node name and the value is
     a dictionary of the rest of the node properties.
     """
@@ -149,7 +149,7 @@ def yaml_loader(constructors_dict):
 DEFAULT_CONSTRUCTORS = {
     "constructor": {
         "!import": import_constructor,
-        "!Nodes": nodes_constructor,
+        "!nodes": nodes_constructor,
     },
     "multi_constructor": {
         "!import:": import_multi_constructor,
@@ -271,7 +271,7 @@ def nodes_representer(dumper, nodes):
         node_dict = node.edit_dict
         name = node_dict.pop("name")
         nodes_dict[name] = node_dict
-    return dumper.represent_mapping("!Nodes", nodes_dict, flow_style=False)
+    return dumper.represent_mapping("!nodes", nodes_dict, flow_style=False)
 
 
 def yaml_dumper(representers_list):
