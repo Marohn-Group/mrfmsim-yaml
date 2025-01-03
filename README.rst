@@ -15,6 +15,8 @@ To install the package, run the following command:
 Usage
 -----
 
+For a YAML configuration file:
+
 .. code-block:: YAML
 
     # experiment.yaml
@@ -23,7 +25,7 @@ Usage
         grouped_edges:
         - [add, [subtract, power, log]]
         - [[subtract, power], multiply]
-        node_objects: !nodes
+        node_objects: !Nodes
             add:
                 func: !func:add 'lambda a, h: a + h'
                 output: c

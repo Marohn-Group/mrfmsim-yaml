@@ -30,7 +30,7 @@ def graph_yaml_str():
     grouped_edges:
     - [add, [subtract, power, log]]
     - [[subtract, power], multiply]
-    node_objects: !nodes
+    node_objects: !Nodes
         add:
             func: !func:add 'lambda a, h: a + h'
             output: c
@@ -69,7 +69,7 @@ def expt_yaml_str():
         grouped_edges:
         - [add, [subtract, power, log]]
         - [[subtract, power], multiply]
-        node_objects: !nodes
+        node_objects: !Nodes
             add:
                 func: !func:add 'lambda a, h: a + h'
                 output: c
@@ -110,7 +110,7 @@ def expt_mod_yaml_str():
         grouped_edges:
         - [add, [subtract, power, log]]
         - [[subtract, power], multiply]
-        node_objects: !nodes
+        node_objects: !Nodes
             add:
                 func: !func:add 'lambda a, h: a + h'
                 output: c
@@ -158,7 +158,7 @@ def group_yaml_str():
     yaml_str = """\
     !ExperimentGroup:test_group
     doc: Test group object.
-    node_objects: !nodes
+    node_objects: !Nodes
         add:
             func: !func:add 'lambda a, h: a + h'
             output: c
