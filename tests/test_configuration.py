@@ -18,7 +18,7 @@ import math
 import types
 import operator
 import numba as nb
-
+from mrfmsim import Node, Graph, Experiment
 
 ### YAML TEST STRINGS ###
 
@@ -51,7 +51,7 @@ def graph_yaml_str():
             inputs: [e, g]
             output: k
             output_unit: m^2
-    graph_type: mrfmsim
+    graph_module: mrfmsim
     """
     return dedent(graph_yaml)
 
@@ -90,7 +90,7 @@ def expt_yaml_str():
                 inputs: [e, g]
                 output: k
                 output_unit: m^2
-        graph_type: mrfmsim
+        graph_module: mrfmsim
     param_defaults:
         h: 2
     """
@@ -131,9 +131,9 @@ def expt_mod_yaml_str():
                 inputs: [e, g]
                 output: k
                 output_unit: m^2
-        graph_type: mrfmsim
+        graph_module: mrfmsim
     components:
-        replace_obj: [[a, a1], [b, b1]]
+        replace_obj: [a, b]
     modifiers: [!import:mmodel.modifier.loop_input {parameter: d}]
     doc: Test experiment with components.
     param_defaults:
@@ -192,7 +192,7 @@ def group_yaml_str():
             returns: [c, m]
     experiment_defaults:
         components:
-            replace_obj: [[a, a1], [b, b1]]
+            replace_obj: [a, b]
         doc: Global docstring.
         param_defaults:
             h: 2
@@ -236,7 +236,9 @@ def test_graph_constructor(experiment, graph_yaml_str):
     # we can only check if the function names are the same.
 
     assert graph.name == "test_graph"
-    assert graph.graph["graph_type"] == "mrfmsim"
+    assert graph.graph["graph_module"] == "mrfmsim"
+    # make sure the node type defaults to Node class
+    assert graph.graph["node_type"] == Node
     assert list(graph.nodes) == list(experiment.graph.nodes)
     assert graph.edges == graph.edges
 
@@ -293,11 +295,11 @@ def test_parse_yaml_file(expt_file):
     assert expt.name == "test_experiment"
     assert expt.doc == "Test experiment with components."
     assert expt.graph.name == "test_graph"
-    assert expt(replace_obj=SNs(a1=1, b1=2), d_loop=[1, 2], f=2) == [
+    assert expt(replace_obj=SNs(a=1, b=2), d_loop=[1, 2], f=2) == [
         (18, math.log(3, 2)),
         (9, math.log(3, 2)),
     ]
-    assert expt(replace_obj=SNs(a1=1, b1=2), d_loop=[1, 2], f=2, h=3) == [
+    assert expt(replace_obj=SNs(a=1, b=2), d_loop=[1, 2], f=2, h=3) == [
         (48, 2),
         (32, 2),
     ]
@@ -325,14 +327,16 @@ def test_group_constructor(group_yaml_str):
     ]
 
     assert group.experiments["test1"].doc == "Global docstring."
-    assert group.experiments["test1"](replace_obj=SNs(a1=1, b1=2), d=1, f=2) == 18
+    assert group.experiments["test1"](replace_obj=SNs(a=1, b=2), d=1, f=2) == 18
 
     assert group.experiments["test2"].doc == "Shortened graph."
-    assert group.experiments["test2"](replace_obj=SNs(a1=1, b1=2), d=1, f=2) == (
+    assert group.experiments["test2"](replace_obj=SNs(a=1, b=2), d=1, f=2) == (
         3,
         math.log(3, 2),
     )
 
+    assert group.graph_type == Graph
+    assert group.model_type == Experiment
 
 ### Test Dumper ###
 

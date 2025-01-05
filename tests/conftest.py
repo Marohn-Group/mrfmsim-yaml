@@ -70,7 +70,7 @@ def experiment_mod(modelgraph):
     return Experiment(
         "test_experiment",
         modelgraph,
-        components={"replace_obj": [("a", "a1"), ("b", "b1")]},
+        components={"replace_obj": ["a", "b"]},
         modifiers=[loop_input(parameter="d")],
         doc="Test experiment with components.",
         param_defaults={"h": 2},

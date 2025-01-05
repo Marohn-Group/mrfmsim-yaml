@@ -81,7 +81,7 @@ The following is an example of a YAML configuration file:
                 output_unit: m^2
         graph_type: mrfmsim
     components:
-        replace_obj: [[a, a1], [b, b1]]
+        replace_obj: [a, b]
     modifiers: [!import:mmodel.modifier.loop_input {parameter: d}]
     doc: Test experiment with components.
     param_defaults:
@@ -105,8 +105,6 @@ To load the experiment:
     handler: MemHandler
     modifiers:
     - loop_input(parameter='d')
-    components:
-    - replace_obj: [['a', 'a1'], ['b', 'b1']]
 
     Test experiment with components.
 

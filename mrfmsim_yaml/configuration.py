@@ -200,6 +200,12 @@ def func_representer(dumper, func):
         return dumper.represent_scalar("!import", dotpath)
 
 
+def class_representer(dumper, obj):
+    """Represent class scalar."""
+
+    dotpath = f"{obj.__module__}.{obj.__name__}"
+    return dumper.represent_scalar("!import", dotpath)
+
 def ufunc_representer(dumper, func):
     """Represent numpy ufunc.
 
@@ -231,6 +237,7 @@ def graph_multi_representer(dumper, graph):
     }
 
     graph_dict.update(graph.graph)
+    graph_dict.pop("node_type", None) # remove node_type from graph_dict, will defaults to Node
     graph_dict.pop("name", None)  # remove name from graph_dict
 
     return dumper.represent_mapping(
