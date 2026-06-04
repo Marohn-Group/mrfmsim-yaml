@@ -73,7 +73,7 @@ def graph_multi_constructor(loader, tag_suffix, node):
     node_objects = param_dict.pop("node_objects")
 
     for node_object in node_objects:
-        graph.set_node_object(node_object)
+        graph.add_node_object(node_object)
 
     # add additional attributes to the graph
     graph.graph.update(param_dict)

@@ -7,6 +7,12 @@ The format is based on
 and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_
 
+
+[0.1.1] - 2026-06-04
+--------------------
+- Fix ``Graph.add_node_objects_from`` and ``Graph.add_node_object`` based
+  on mmodel 0.9.0.
+
 [0.1.0] - 2025-01-02
 --------------------
 Initial release.
